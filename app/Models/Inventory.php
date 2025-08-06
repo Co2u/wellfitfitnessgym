@@ -18,7 +18,7 @@ class Inventory extends Model
         'inventory_image', 
         'inventory_description', 
         'inventory_quantity',
-        'inventory_price', // <-- must be here!
+        'inventory_price'
     ];  
 
  

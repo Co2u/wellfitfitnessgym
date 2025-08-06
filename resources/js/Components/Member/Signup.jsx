@@ -39,11 +39,6 @@ export default function Signup() {
         setSuccessMessage('');
         setIsSubmitting(true);
 
-        if (formData.password !== formData.confirm_password) {
-        setErrors({ confirm_password: "Passwords do not match." });
-        setIsSubmitting(false);
-        return;
-    }
         try {
             const response = await fetch('/signup', {
                 method: 'POST',
@@ -97,7 +92,7 @@ export default function Signup() {
                                         <form onSubmit={handleSubmit} className="search-404">
                                             <input type="hidden" name="type" value={formData.type} />
                                             <input type="hidden" name="verification_code" value={formData.verification_code} />
-                                            
+
                                             <input type="text" name="first_name" placeholder="Enter your First Name" value={formData.first_name} onChange={handleChange} required />
                                             {errors.first_name && <p className="text-danger">{errors.first_name}</p>}
 
@@ -109,9 +104,6 @@ export default function Signup() {
 
                                             <input type="password" name="password" placeholder="Create a Password" value={formData.password} onChange={handleChange} required />
                                             {errors.password && <p className="text-danger">{errors.password}</p>}
-
-                                            <input type="password" name="confirm_password" placeholder="Confirm your Password" value={formData.confirm_password} onChange={handleChange} required />
-                                            {errors.confirm_password && <p className="text-danger">{errors.confirm_password}</p>}
 
                                             <br />
                                             <button 

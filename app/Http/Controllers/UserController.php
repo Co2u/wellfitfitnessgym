@@ -248,7 +248,7 @@ class UserController extends Controller
                 $file = $request->file('profile'); 
                 $fileName = time() . '_' . $file->getClientOriginalName(); // Unique filename
                
-                $file->move(public_path('template/images'), $fileName);
+                $file->move(base_path('template/images'), $fileName);
 
                 // Store only the file name in the database
                 $user->profile = $fileName; 
@@ -502,7 +502,7 @@ class UserController extends Controller
             if ($request->hasFile('trainer_image')) {
                 $file = $request->file('trainer_image');
                 $filename = time() . '.' . $file->getClientOriginalExtension();
-                $file->move(public_path('template/images'), $filename);
+                $file->move(base_path('template/images'), $filename);
 
             }
     
@@ -542,7 +542,7 @@ class UserController extends Controller
             if ($request->hasFile('trainer_image')) {
                 $file = $request->file('trainer_image');
                 $filename = time() . '.' . $file->getClientOriginalExtension();
-                $file->move(public_path('template/images'), $filename);
+                $file->move(base_path('template/images'), $filename);
 
                 $trainer->trainer_image = $filename;
             }
@@ -590,7 +590,7 @@ class UserController extends Controller
                 'inventory_image' => $filename,
                 'inventory_description' => $request->inventory_description,
                 'inventory_quantity' => $request->inventory_quantity,
-                'inventory_price' => $request->inventory_price, // <-- Add this line
+                'inventory_price' => $request->inventory_price,
             ]);
     
             return response()->json(['message' => 'Added Successfully']);
@@ -602,23 +602,25 @@ class UserController extends Controller
     public function adminEditInventory(Request $request)
     {
         try {
+       
             $db = \App\Models\Inventory::findOrFail($request->id);
-
+    
             if ($request->hasFile('inventory_image')) {
                 $file = $request->file('inventory_image');
                 $filename = time() . '.' . $file->getClientOriginalExtension();
                 $file->move(public_path('template/images'), $filename);
 
+
                 $db->inventory_image = $filename;
             }
-
+    
             $db->inventory_name = $request->inventory_name;
             $db->inventory_description = $request->inventory_description;
             $db->inventory_quantity = $request->inventory_quantity;
-            $db->inventory_price = $request->inventory_price; // <-- ADD THIS LINE
+            $db->inventory_price = $request->inventory_price;
 
             $db->save();
-
+    
             return response()->json(['message' => 'Updated successfully']);
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
@@ -646,8 +648,6 @@ class UserController extends Controller
                 $file = $request->file('gallery_image');
                 $filename = time() . '.' . $file->getClientOriginalExtension();
                 $file->move(public_path('template/images'), $filename);
-
-
             }
     
            Gallery::create([
